@@ -15,14 +15,15 @@
 }
 
 body{
-    overflow:hidden;
-    height:100vh;
+    overflow-x:hidden;
+    min-height:100vh;
     background:linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
     background-size:400% 400%;
     animation:bg 12s ease infinite;
     color:white;
 }
 
+/* 🌈 background */
 @keyframes bg{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
@@ -30,130 +31,122 @@ body{
 }
 
 .container{
-    width:90%;
-    max-width:1100px;
-    margin:30px auto;
+    width:92%;
+    max-width:1000px;
+    margin:20px auto;
     text-align:center;
     position:relative;
     z-index:10;
 }
 
 h1{
-    margin-bottom:20px;
-    font-size:3rem;
+    font-size:clamp(1.8rem,5vw,3rem);
+    margin-bottom:15px;
 }
 
+/* 📱 tabs */
 .tabs{
     display:flex;
     justify-content:center;
-    gap:10px;
-    margin-bottom:25px;
     flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:20px;
 }
 
 .tab-btn{
-    padding:12px 25px;
+    padding:12px 18px;
     border:none;
-    border-radius:50px;
-    cursor:pointer;
+    border-radius:40px;
     background:white;
     color:#ff4f81;
     font-weight:bold;
+    font-size:14px;
 }
 
+/* 📦 tab content */
 .tab-content{
     display:none;
     background:rgba(255,255,255,0.15);
     backdrop-filter:blur(10px);
-    border-radius:20px;
-    padding:25px;
+    border-radius:18px;
+    padding:18px;
 }
 
-.active{
-    display:block;
-}
+.active{display:block;}
 
+/* ⏳ timer */
 .timer{
-    font-size:1.4rem;
-    line-height:2;
+    font-size:clamp(1rem,4vw,1.4rem);
+    line-height:1.8;
 }
 
+/* 📸 gallery FIX */
 .gallery{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:10px;
 }
 
 .gallery img{
     width:100%;
-    height:250px;
+    height:140px;
     object-fit:cover;
-    border-radius:20px;
-    box-shadow:0 0 15px rgba(0,0,0,.3);
-}
-
-.wedding{
-    font-size:2rem;
-    line-height:2;
-}
-
-#openLove{
-    margin-top:25px;
-    padding:15px 30px;
-    border:none;
-    border-radius:50px;
-    background:white;
-    color:#ff4f81;
+    border-radius:12px;
     cursor:pointer;
-    font-size:1.1rem;
+    transition:0.2s;
 }
 
-.message{
-    opacity:0;
-    transition:1s;
-    margin-top:25px;
-    font-size:1.3rem;
+.gallery img:active{
+    transform:scale(0.97);
+}
+
+/* 💍 wedding */
+.wedding{
+    font-size:clamp(1.2rem,4vw,2rem);
     line-height:1.8;
 }
 
-.show{
-    opacity:1;
+/* ❤️ buttons */
+button{
+    padding:12px 20px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+#openLove{
+    background:white;
+    color:#ff4f81;
+    margin-top:15px;
 }
 
 #loveBtn{
     display:none;
-    margin-top:25px;
-    padding:15px 30px;
-    border:none;
-    border-radius:50px;
+    margin-top:15px;
     background:#ff1744;
     color:white;
-    cursor:pointer;
-    font-size:1.1rem;
 }
 
-.heart,
-.rose{
+/* 💌 message */
+.message{
+    opacity:0;
+    transform:translateY(10px);
+    transition:1s;
+    margin-top:15px;
+    font-size:clamp(1rem,3.5vw,1.3rem);
+    line-height:1.6;
+}
+
+.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ❤️ hearts + 🌹 roses */
+.heart,.rose{
     position:absolute;
     pointer-events:none;
-}
-
-.heart{
-    animation:heartFloat linear forwards;
-}
-
-.rose{
-    animation:roseFall linear forwards;
-}
-
-@keyframes heartFloat{
-    from{transform:translateY(100vh);}
-    to{transform:translateY(-120px);opacity:0;}
-}
-
-@keyframes roseFall{
-    from{transform:translateY(-100px) rotate(0deg);}
-    to{transform:translateY(110vh) rotate(720deg);opacity:0;}
 }
 
 #fireworks{
@@ -162,13 +155,30 @@ h1{
     pointer-events:none;
 }
 
+/* 🖼 FULLSCREEN PHOTO VIEW */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.modal img{
+    max-width:95%;
+    max-height:85%;
+    border-radius:15px;
+}
+
 </style>
 </head>
 
 <body>
 
 <audio id="music" loop>
-    <source src="music.mp3" type="audio/mpeg">
+    <source src="music.mp3">
 </audio>
 
 <canvas id="fireworks"></canvas>
@@ -177,57 +187,58 @@ h1{
 
 <h1>Для Ксюши ❤️</h1>
 
+<!-- tabs -->
 <div class="tabs">
-
 <button class="tab-btn" onclick="showTab('timer')">❤️ Вместе</button>
 <button class="tab-btn" onclick="showTab('photos')">📸 Фото</button>
 <button class="tab-btn" onclick="showTab('wedding')">💍 Свадьба</button>
-
 </div>
 
-<!-- TAB 1 -->
+<!-- TIMER -->
 <div id="timer" class="tab-content active">
 
 <div class="timer">
-Я люблю тебя уже:
+Я люблю тебя уже:<br><br>
 <div id="loveTime"></div>
 </div>
 
 <button id="openLove" onclick="startLove(event)">
-Открыть признание ❤️
+Открыть ❤️
 </button>
 
 <div class="message" id="message">
 Ксюша...<br><br>
-Ты стала самым важным человеком в моей жизни.<br><br>
-Я люблю тебя ❤️
+Ты — самое важное в моей жизни ❤️<br><br>
+Я люблю тебя.
 </div>
 
 <button id="loveBtn" onclick="loveAnswer(event)">
-Я тоже тебя люблю ❤️
+Я тоже ❤️
 </button>
 
 </div>
 
-<!-- TAB 2 -->
+<!-- PHOTOS -->
 <div id="photos" class="tab-content">
 
-<h2>Наши фото ❤️</h2><br>
+<h2>Наши фото 📸</h2><br>
 
 <div class="gallery">
-<img src="photo1.jpg">
-<img src="photo2.jpg">
-<img src="photo3.jpg">
-<img src="photo4.jpg">
-</div>
+
+<img src="photo1.jpg" onclick="openPhoto(this.src)">
+<img src="photo2.jpg" onclick="openPhoto(this.src)">
+<img src="photo3.jpg" onclick="openPhoto(this.src)">
+<img src="photo4.jpg" onclick="openPhoto(this.src)">
 
 </div>
 
-<!-- TAB 3 -->
+</div>
+
+<!-- WEDDING -->
 <div id="wedding" class="tab-content">
 
 <div class="wedding">
-💍 Дата свадьбы<br><br>
+💍 Свадьба<br><br>
 ...
 </div>
 
@@ -235,134 +246,122 @@ h1{
 
 </div>
 
+<!-- PHOTO MODAL -->
+<div class="modal" id="modal" onclick="closePhoto()">
+<img id="modalImg">
+</div>
+
 <script>
 
-const music = document.getElementById("music");
-let musicPlaying = false;
+const music=document.getElementById("music");
+let musicOn=false;
 
-// 🔊 ТУТ ГЛАВНОЕ: любое нажатие включает/выключает музыку
-document.addEventListener("click", function(e){
+/* 🔊 tap anywhere toggle music */
+document.addEventListener("click",(e)=>{
 
-    // не реагируем на кнопки управления
-    if(e.target.tagName === "BUTTON") return;
+if(e.target.tagName==="BUTTON" || e.target.tagName==="IMG") return;
 
-    if(!musicPlaying){
-        music.play().catch(()=>{});
-        musicPlaying = true;
-    } else {
-        music.pause();
-        musicPlaying = false;
-    }
+if(!musicOn){
+music.play().catch(()=>{});
+musicOn=true;
+}else{
+music.pause();
+musicOn=false;
+}
 
 });
 
+/* tabs */
 function showTab(id){
-
 document.querySelectorAll(".tab-content")
 .forEach(t=>t.classList.remove("active"));
-
-document.getElementById(id)
-.classList.add("active");
-
+document.getElementById(id).classList.add("active");
 }
 
+/* timer */
 function updateTimer(){
+const start=new Date("2026-05-01");
+const now=new Date();
+const d=Math.floor((now-start)/86400000);
+const h=Math.floor((now-start)/3600000)%24;
+const m=Math.floor((now-start)/60000)%60;
+const s=Math.floor((now-start)/1000)%60;
 
-const start = new Date("2026-05-01T00:00:00");
-const now = new Date();
-
-const diff = now - start;
-
-const d = Math.floor(diff/86400000);
-const h = Math.floor(diff/3600000)%24;
-const m = Math.floor(diff/60000)%60;
-const s = Math.floor(diff/1000)%60;
-
-document.getElementById("loveTime").innerText =
-`${d} дней ${h} часов ${m} минут ${s} секунд`;
-
+document.getElementById("loveTime").innerText=
+`${d} дней ${h}ч ${m}м ${s}с`;
 }
-
 setInterval(updateTimer,1000);
 updateTimer();
 
+/* love text */
 function startLove(e){
-
 e.stopPropagation();
-
 document.getElementById("message").classList.add("show");
 document.getElementById("loveBtn").style.display="inline-block";
-
 }
 
 function loveAnswer(e){
-
 e.stopPropagation();
-
 explode();
-
 alert("❤️ Я тоже тебя люблю ❤️");
-
 }
 
-// ❤️ сердечки
-function heart(){
+/* PHOTO ZOOM FIX */
+function openPhoto(src){
+document.getElementById("modal").style.display="flex";
+document.getElementById("modalImg").src=src;
+}
 
+function closePhoto(){
+document.getElementById("modal").style.display="none";
+}
+
+/* hearts */
+setInterval(()=>{
 const h=document.createElement("div");
-h.className="heart";
 h.innerHTML="❤️";
+h.className="heart";
 h.style.left=Math.random()*100+"vw";
-h.style.fontSize=(Math.random()*20+15)+"px";
-h.style.animationDuration=(Math.random()*5+5)+"s";
-
+h.style.fontSize="18px";
+h.style.animationDuration="6s";
 document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},300);
 
-setTimeout(()=>h.remove(),10000);
-
-}
-setInterval(heart,300);
-
-// 🌹 розы
-function rose(){
-
+/* roses */
+setInterval(()=>{
 const r=document.createElement("div");
-r.className="rose";
 r.innerHTML="🌹";
+r.className="rose";
 r.style.left=Math.random()*100+"vw";
-r.style.fontSize=(Math.random()*20+20)+"px";
-r.style.animationDuration=(Math.random()*6+5)+"s";
-
+r.style.fontSize="22px";
+r.style.animationDuration="7s";
 document.body.appendChild(r);
+setTimeout(()=>r.remove(),7000);
+},500);
 
-setTimeout(()=>r.remove(),12000);
-
-}
-setInterval(rose,500);
-
-// 🎆 фейерверк
+/* fireworks */
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
 
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-window.addEventListener("resize",()=>{
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-});
+function resize(){
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+}
+resize();
+window.addEventListener("resize",resize);
 
 let particles=[];
 
-class Particle{
+class P{
 constructor(x,y){
-this.x=x;
-this.y=y;
+this.x=x;this.y=y;
 this.vx=(Math.random()-0.5)*10;
 this.vy=(Math.random()-0.5)*10;
-this.life=120;
+this.life=100;
 }
 draw(){
-ctx.font="24px Arial";
+ctx.font="20px Arial";
 ctx.fillText("❤️",this.x,this.y);
 }
 update(){
@@ -374,13 +373,13 @@ this.draw();
 }
 
 function explode(){
-for(let i=0;i<120;i++){
-particles.push(new Particle(canvas.width/2,canvas.height/2));
+for(let i=0;i<100;i++){
+particles.push(new P(innerWidth/2,innerHeight/2));
 }
 }
 
 function loop(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,innerWidth,innerHeight);
 particles.forEach((p,i)=>{
 p.update();
 if(p.life<=0) particles.splice(i,1);
