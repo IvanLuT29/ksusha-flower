@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -18,114 +17,143 @@
 body{
     overflow:hidden;
     height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
     background:linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
     background-size:400% 400%;
-    animation:gradient 12s ease infinite;
+    animation:bg 12s ease infinite;
+    color:white;
 }
 
-@keyframes gradient{
+@keyframes bg{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
 
 .container{
-    max-width:900px;
+    width:90%;
+    max-width:1100px;
+    margin:30px auto;
     text-align:center;
-    color:white;
-    padding:30px;
-    z-index:5;
+    position:relative;
+    z-index:10;
 }
 
 h1{
-    font-size:3.5rem;
     margin-bottom:20px;
-    text-shadow:0 0 15px rgba(255,255,255,.4);
+    font-size:3rem;
 }
 
-.timer{
+.tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
     margin-bottom:25px;
-    font-size:1.3rem;
-    background:rgba(255,255,255,.15);
-    backdrop-filter:blur(10px);
-    padding:15px;
-    border-radius:20px;
+    flex-wrap:wrap;
 }
 
-button{
-    padding:15px 35px;
+.tab-btn{
+    padding:12px 25px;
     border:none;
     border-radius:50px;
     cursor:pointer;
-    font-size:1.1rem;
-    transition:.3s;
-}
-
-#openBtn{
     background:white;
-    color:#ff4d79;
+    color:#ff4f81;
+    font-weight:bold;
 }
 
-#loveBtn{
-    background:#ff1744;
-    color:white;
-    margin-top:25px;
+.tab-content{
     display:none;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:25px;
 }
 
-button:hover{
-    transform:scale(1.08);
+.active{
+    display:block;
+}
+
+.timer{
+    font-size:1.4rem;
+    line-height:2;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.gallery img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 0 15px rgba(0,0,0,.3);
+}
+
+.wedding{
+    font-size:2rem;
+    line-height:2;
+}
+
+#openLove{
+    margin-top:25px;
+    padding:15px 30px;
+    border:none;
+    border-radius:50px;
+    background:white;
+    color:#ff4f81;
+    cursor:pointer;
+    font-size:1.1rem;
 }
 
 .message{
-    margin-top:30px;
-    font-size:1.35rem;
-    line-height:1.8;
     opacity:0;
-    transform:translateY(30px);
-    transition:1.2s;
+    transition:1s;
+    margin-top:25px;
+    font-size:1.3rem;
+    line-height:1.8;
 }
 
 .show{
     opacity:1;
-    transform:translateY(0);
 }
 
-.heart{
-    position:absolute;
+#loveBtn{
+    display:none;
+    margin-top:25px;
+    padding:15px 30px;
+    border:none;
+    border-radius:50px;
+    background:#ff1744;
     color:white;
-    animation:float linear infinite;
-    pointer-events:none;
+    cursor:pointer;
+    font-size:1.1rem;
 }
 
-@keyframes float{
-    from{
-        transform:translateY(100vh);
-        opacity:1;
-    }
-    to{
-        transform:translateY(-120px);
-        opacity:0;
-    }
-}
-
+.heart,
 .rose{
     position:absolute;
     pointer-events:none;
-    animation:fall linear forwards;
 }
 
-@keyframes fall{
-    from{
-        transform:translateY(-100px) rotate(0deg);
-    }
-    to{
-        transform:translateY(110vh) rotate(720deg);
-        opacity:0;
-    }
+.heart{
+    animation:heartFloat linear forwards;
+}
+
+.rose{
+    animation:roseFall linear forwards;
+}
+
+@keyframes heartFloat{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-120px);opacity:0;}
+}
+
+@keyframes roseFall{
+    from{transform:translateY(-100px) rotate(0deg);}
+    to{transform:translateY(110vh) rotate(720deg);opacity:0;}
 }
 
 #fireworks{
@@ -134,17 +162,9 @@ button:hover{
     pointer-events:none;
 }
 
-.finalText{
-    margin-top:20px;
-    font-size:2rem;
-    font-weight:bold;
-    color:white;
-    text-shadow:0 0 15px rgba(255,255,255,.6);
-}
-
 </style>
-
 </head>
+
 <body>
 
 <audio id="music" loop>
@@ -155,227 +175,219 @@ button:hover{
 
 <div class="container">
 
-```
 <h1>Для Ксюши ❤️</h1>
 
-<div class="timer">
-    Люблю тебя уже:
-    <div id="loveTime"></div>
+<div class="tabs">
+
+<button class="tab-btn" onclick="showTab('timer')">❤️ Вместе</button>
+<button class="tab-btn" onclick="showTab('photos')">📸 Фото</button>
+<button class="tab-btn" onclick="showTab('wedding')">💍 Свадьба</button>
+
 </div>
 
-<button id="openBtn" onclick="startLove()">
-    Нажми сюда ❤️
+<!-- TAB 1 -->
+<div id="timer" class="tab-content active">
+
+<div class="timer">
+Я люблю тебя уже:
+<div id="loveTime"></div>
+</div>
+
+<button id="openLove" onclick="startLove(event)">
+Открыть признание ❤️
 </button>
 
 <div class="message" id="message">
+Ксюша...<br><br>
+Ты стала самым важным человеком в моей жизни.<br><br>
+Я люблю тебя ❤️
+</div>
 
-    Ксюша...
-
-    <br><br>
-
-    С того самого дня мои мысли всё чаще возвращаются к тебе.
-
-    <br><br>
-
-    Твоя улыбка делает мой день светлее,
-    а твои глаза заставляют забывать обо всём вокруг.
-
-    <br><br>
-
-    Каждый разговор с тобой становится для меня особенным.
-
-    <br><br>
-
-    Спасибо тебе за то, что ты есть.
-
-    <br><br>
-
-    <div class="finalText">
-        Я люблю тебя ❤️
-    </div>
+<button id="loveBtn" onclick="loveAnswer(event)">
+Я тоже тебя люблю ❤️
+</button>
 
 </div>
 
-<button id="loveBtn" onclick="loveAnswer()">
-    Я тоже тебя люблю ❤️
-</button>
-```
+<!-- TAB 2 -->
+<div id="photos" class="tab-content">
+
+<h2>Наши фото ❤️</h2><br>
+
+<div class="gallery">
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+<img src="photo3.jpg">
+<img src="photo4.jpg">
+</div>
+
+</div>
+
+<!-- TAB 3 -->
+<div id="wedding" class="tab-content">
+
+<div class="wedding">
+💍 Дата свадьбы<br><br>
+...
+</div>
+
+</div>
 
 </div>
 
 <script>
 
-function updateLoveTimer(){
+const music = document.getElementById("music");
+let musicPlaying = false;
 
-    const startDate = new Date("2026-05-01T00:00:00");
+// 🔊 ТУТ ГЛАВНОЕ: любое нажатие включает/выключает музыку
+document.addEventListener("click", function(e){
 
-    const now = new Date();
+    // не реагируем на кнопки управления
+    if(e.target.tagName === "BUTTON") return;
 
-    const diff = now - startDate;
+    if(!musicPlaying){
+        music.play().catch(()=>{});
+        musicPlaying = true;
+    } else {
+        music.pause();
+        musicPlaying = false;
+    }
 
-    const days = Math.floor(diff/(1000*60*60*24));
-    const hours = Math.floor((diff/(1000*60*60))%24);
-    const minutes = Math.floor((diff/(1000*60))%60);
-    const seconds = Math.floor((diff/1000)%60);
+});
 
-    document.getElementById("loveTime").innerHTML =
-    `${days} дней ${hours} часов ${minutes} минут ${seconds} секунд`;
+function showTab(id){
+
+document.querySelectorAll(".tab-content")
+.forEach(t=>t.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+
 }
 
-setInterval(updateLoveTimer,1000);
-updateLoveTimer();
+function updateTimer(){
 
-function startLove(){
+const start = new Date("2026-05-01T00:00:00");
+const now = new Date();
 
-    document.getElementById("message").classList.add("show");
+const diff = now - start;
 
-    document.getElementById("loveBtn").style.display = "inline-block";
+const d = Math.floor(diff/86400000);
+const h = Math.floor(diff/3600000)%24;
+const m = Math.floor(diff/60000)%60;
+const s = Math.floor(diff/1000)%60;
 
-    const music = document.getElementById("music");
+document.getElementById("loveTime").innerText =
+`${d} дней ${h} часов ${m} минут ${s} секунд`;
 
-    music.play().catch(()=>{});
 }
 
-function createHeart(){
+setInterval(updateTimer,1000);
+updateTimer();
 
-    const heart = document.createElement("div");
+function startLove(e){
 
-    heart.className = "heart";
+e.stopPropagation();
 
-    heart.innerHTML = "❤️";
+document.getElementById("message").classList.add("show");
+document.getElementById("loveBtn").style.display="inline-block";
 
-    heart.style.left = Math.random()*100 + "vw";
-
-    heart.style.fontSize =
-        (Math.random()*20 + 15) + "px";
-
-    heart.style.animationDuration =
-        (Math.random()*5 + 5) + "s";
-
-    document.body.appendChild(heart);
-
-    setTimeout(()=>{
-        heart.remove();
-    },10000);
 }
 
-setInterval(createHeart,300);
+function loveAnswer(e){
 
-function createRose(){
+e.stopPropagation();
 
-    const rose = document.createElement("div");
+explode();
 
-    rose.className = "rose";
+alert("❤️ Я тоже тебя люблю ❤️");
 
-    rose.innerHTML = "🌹";
-
-    rose.style.left = Math.random()*100 + "vw";
-
-    rose.style.fontSize =
-        (Math.random()*20 + 20) + "px";
-
-    rose.style.animationDuration =
-        (Math.random()*6 + 6) + "s";
-
-    document.body.appendChild(rose);
-
-    setTimeout(()=>{
-        rose.remove();
-    },12000);
 }
 
-setInterval(createRose,500);
+// ❤️ сердечки
+function heart(){
 
-const canvas = document.getElementById("fireworks");
-const ctx = canvas.getContext("2d");
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=(Math.random()*20+15)+"px";
+h.style.animationDuration=(Math.random()*5+5)+"s";
 
-function resizeCanvas(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),10000);
+
 }
+setInterval(heart,300);
 
-resizeCanvas();
+// 🌹 розы
+function rose(){
 
-window.addEventListener("resize",resizeCanvas);
+const r=document.createElement("div");
+r.className="rose";
+r.innerHTML="🌹";
+r.style.left=Math.random()*100+"vw";
+r.style.fontSize=(Math.random()*20+20)+"px";
+r.style.animationDuration=(Math.random()*6+5)+"s";
 
-let particles = [];
+document.body.appendChild(r);
+
+setTimeout(()=>r.remove(),12000);
+
+}
+setInterval(rose,500);
+
+// 🎆 фейерверк
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
+
+let particles=[];
 
 class Particle{
-
-    constructor(x,y){
-
-        this.x=x;
-        this.y=y;
-
-        this.vx=(Math.random()-0.5)*10;
-        this.vy=(Math.random()-0.5)*10;
-
-        this.life=120;
-    }
-
-    draw(){
-
-        ctx.font="24px Arial";
-        ctx.fillText("❤️",this.x,this.y);
-    }
-
-    update(){
-
-        this.x+=this.vx;
-        this.y+=this.vy;
-        this.life--;
-
-        this.draw();
-    }
+constructor(x,y){
+this.x=x;
+this.y=y;
+this.vx=(Math.random()-0.5)*10;
+this.vy=(Math.random()-0.5)*10;
+this.life=120;
+}
+draw(){
+ctx.font="24px Arial";
+ctx.fillText("❤️",this.x,this.y);
+}
+update(){
+this.x+=this.vx;
+this.y+=this.vy;
+this.life--;
+this.draw();
+}
 }
 
 function explode(){
-
-    for(let i=0;i<150;i++){
-
-        particles.push(
-            new Particle(
-                canvas.width/2,
-                canvas.height/2
-            )
-        );
-    }
+for(let i=0;i<120;i++){
+particles.push(new Particle(canvas.width/2,canvas.height/2));
+}
 }
 
-function animate(){
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    particles.forEach((p,index)=>{
-
-        p.update();
-
-        if(p.life<=0){
-            particles.splice(index,1);
-        }
-    });
-
-    requestAnimationFrame(animate);
+function loop(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach((p,i)=>{
+p.update();
+if(p.life<=0) particles.splice(i,1);
+});
+requestAnimationFrame(loop);
 }
-
-animate();
-
-function loveAnswer(){
-
-    explode();
-
-    document.getElementById("loveBtn").innerHTML =
-    "❤️ И я тебя очень люблю ❤️";
-
-    setTimeout(()=>{
-        alert("Ты сделала меня самым счастливым человеком ❤️");
-    },500);
-}
+loop();
 
 </script>
 
