@@ -15,24 +15,24 @@
 }
 
 body{
-    overflow-x:hidden;
     min-height:100vh;
+    overflow-x:hidden;
     background:linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
     background-size:400% 400%;
     animation:bg 12s ease infinite;
     color:white;
 }
 
-/* 🌈 background */
 @keyframes bg{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
 
+/* layout */
 .container{
     width:92%;
-    max-width:1000px;
+    max-width:1100px;
     margin:20px auto;
     text-align:center;
     position:relative;
@@ -44,26 +44,26 @@ h1{
     margin-bottom:15px;
 }
 
-/* 📱 tabs */
+/* tabs */
 .tabs{
     display:flex;
-    justify-content:center;
     flex-wrap:wrap;
-    gap:10px;
+    justify-content:center;
+    gap:8px;
     margin-bottom:20px;
 }
 
 .tab-btn{
-    padding:12px 18px;
+    padding:10px 14px;
     border:none;
     border-radius:40px;
     background:white;
     color:#ff4f81;
     font-weight:bold;
-    font-size:14px;
+    font-size:13px;
 }
 
-/* 📦 tab content */
+/* tab content */
 .tab-content{
     display:none;
     background:rgba(255,255,255,0.15);
@@ -74,16 +74,16 @@ h1{
 
 .active{display:block;}
 
-/* ⏳ timer */
+/* timer */
 .timer{
-    font-size:clamp(1rem,4vw,1.4rem);
-    line-height:1.8;
+    font-size:clamp(1rem,4vw,1.3rem);
+    line-height:1.7;
 }
 
-/* 📸 gallery FIX */
+/* gallery */
 .gallery{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
     gap:10px;
 }
 
@@ -93,49 +93,36 @@ h1{
     object-fit:cover;
     border-radius:12px;
     cursor:pointer;
-    transition:0.2s;
 }
 
-.gallery img:active{
-    transform:scale(0.97);
-}
-
-/* 💍 wedding */
-.wedding{
-    font-size:clamp(1.2rem,4vw,2rem);
-    line-height:1.8;
-}
-
-/* ❤️ buttons */
+/* buttons */
 button{
     padding:12px 20px;
     border:none;
     border-radius:40px;
     cursor:pointer;
-    font-size:14px;
 }
 
 #openLove{
     background:white;
     color:#ff4f81;
-    margin-top:15px;
+    margin-top:10px;
 }
 
 #loveBtn{
     display:none;
-    margin-top:15px;
+    margin-top:10px;
     background:#ff1744;
     color:white;
 }
 
-/* 💌 message */
+/* message */
 .message{
     opacity:0;
     transform:translateY(10px);
     transition:1s;
-    margin-top:15px;
-    font-size:clamp(1rem,3.5vw,1.3rem);
-    line-height:1.6;
+    margin-top:10px;
+    font-size:1.1rem;
 }
 
 .show{
@@ -143,19 +130,22 @@ button{
     transform:translateY(0);
 }
 
-/* ❤️ hearts + 🌹 roses */
+/* hearts & roses */
 .heart,.rose{
     position:absolute;
     pointer-events:none;
 }
 
-#fireworks{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
+/* map */
+.map{
+    width:100%;
+    height:320px;
+    border:none;
+    border-radius:15px;
+    margin-top:10px;
 }
 
-/* 🖼 FULLSCREEN PHOTO VIEW */
+/* modal */
 .modal{
     position:fixed;
     inset:0;
@@ -170,6 +160,13 @@ button{
     max-width:95%;
     max-height:85%;
     border-radius:15px;
+}
+
+/* fireworks */
+#fireworks{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
 }
 
 </style>
@@ -187,88 +184,101 @@ button{
 
 <h1>Для Ксюши ❤️</h1>
 
-<!-- tabs -->
 <div class="tabs">
-<button class="tab-btn" onclick="showTab('timer')">❤️ Вместе</button>
-<button class="tab-btn" onclick="showTab('photos')">📸 Фото</button>
-<button class="tab-btn" onclick="showTab('wedding')">💍 Свадьба</button>
+<button class="tab-btn" onclick="showTab('t1')">❤️ Вместе</button>
+<button class="tab-btn" onclick="showTab('t2')">📸 Фото</button>
+<button class="tab-btn" onclick="showTab('t3')">💍 Свадьба</button>
+<button class="tab-btn" onclick="showTab('t4')">📍 Встреча</button>
 </div>
 
-<!-- TIMER -->
-<div id="timer" class="tab-content active">
+<!-- TAB 1 -->
+<div id="t1" class="tab-content active">
 
 <div class="timer">
-Я люблю тебя уже:<br><br>
-<div id="loveTime"></div>
+Мы вместе уже:<br><br>
+<div id="time"></div>
 </div>
 
-<button id="openLove" onclick="startLove(event)">
-Открыть ❤️
-</button>
+<button id="openLove" onclick="openLove(event)">Открыть ❤️</button>
 
-<div class="message" id="message">
+<div class="message" id="msg">
 Ксюша...<br><br>
 Ты — самое важное в моей жизни ❤️<br><br>
 Я люблю тебя.
 </div>
 
-<button id="loveBtn" onclick="loveAnswer(event)">
+<button id="loveBtn" onclick="loveBack(event)">
 Я тоже ❤️
 </button>
 
 </div>
 
-<!-- PHOTOS -->
-<div id="photos" class="tab-content">
+<!-- TAB 2 -->
+<div id="t2" class="tab-content">
 
-<h2>Наши фото 📸</h2><br>
+<h3>Наши фото 📸</h3><br>
 
 <div class="gallery">
+<img src="photo1.jpg" onclick="openImg(this.src)">
+<img src="photo2.jpg" onclick="openImg(this.src)">
+<img src="photo3.jpg" onclick="openImg(this.src)">
+<img src="photo4.jpg" onclick="openImg(this.src)">
+</div>
 
-<img src="photo1.jpg" onclick="openPhoto(this.src)">
-<img src="photo2.jpg" onclick="openPhoto(this.src)">
-<img src="photo3.jpg" onclick="openPhoto(this.src)">
-<img src="photo4.jpg" onclick="openPhoto(this.src)">
+</div>
+
+<!-- TAB 3 -->
+<div id="t3" class="tab-content">
+
+<h3>💍 Свадьба</h3>
+<br>
+<h2>...</h2>
+
+</div>
+
+<!-- TAB 4 -->
+<div id="t4" class="tab-content">
+
+<h3>📍 Где мы встретились ❤️</h3>
+
+<br>
+
+<div>
+Именно здесь началась наша история,
+которая изменила мою жизнь ❤️
+</div>
+
+<br>
+
+<iframe class="map"
+src="https://www.openstreetmap.org/export/embed.html?bbox=30.433860281686%2C50.46969161452671%2C30.443860281686%2C50.47969161452671&layer=mapnik&marker=50.47469161452671%2C30.438860281686">
+</iframe>
 
 </div>
 
 </div>
 
-<!-- WEDDING -->
-<div id="wedding" class="tab-content">
-
-<div class="wedding">
-💍 Свадьба<br><br>
-...
-</div>
-
-</div>
-
-</div>
-
-<!-- PHOTO MODAL -->
-<div class="modal" id="modal" onclick="closePhoto()">
+<!-- modal -->
+<div class="modal" id="modal" onclick="closeImg()">
 <img id="modalImg">
 </div>
 
 <script>
 
 const music=document.getElementById("music");
-let musicOn=false;
+let on=false;
 
-/* 🔊 tap anywhere toggle music */
+/* music toggle */
 document.addEventListener("click",(e)=>{
+if(e.target.tagName==="BUTTON"||e.target.tagName==="IMG") return;
 
-if(e.target.tagName==="BUTTON" || e.target.tagName==="IMG") return;
-
-if(!musicOn){
+if(!on){
 music.play().catch(()=>{});
-musicOn=true;
+on=true;
 }else{
 music.pause();
-musicOn=false;
+on=false;
 }
-
 });
 
 /* tabs */
@@ -279,40 +289,36 @@ document.getElementById(id).classList.add("active");
 }
 
 /* timer */
-function updateTimer(){
-const start=new Date("2026-05-01");
-const now=new Date();
-const d=Math.floor((now-start)/86400000);
-const h=Math.floor((now-start)/3600000)%24;
-const m=Math.floor((now-start)/60000)%60;
-const s=Math.floor((now-start)/1000)%60;
+setInterval(()=>{
+const s=new Date("2026-05-01");
+const n=new Date();
+const d=Math.floor((n-s)/86400000);
+const h=Math.floor((n-s)/3600000)%24;
+const m=Math.floor((n-s)/60000)%60;
+const sec=Math.floor((n-s)/1000)%60;
+document.getElementById("time").innerText=
+`${d}д ${h}ч ${m}м ${sec}с`;
+},1000);
 
-document.getElementById("loveTime").innerText=
-`${d} дней ${h}ч ${m}м ${s}с`;
-}
-setInterval(updateTimer,1000);
-updateTimer();
-
-/* love text */
-function startLove(e){
+/* love */
+function openLove(e){
 e.stopPropagation();
-document.getElementById("message").classList.add("show");
+document.getElementById("msg").classList.add("show");
 document.getElementById("loveBtn").style.display="inline-block";
 }
 
-function loveAnswer(e){
+function loveBack(e){
 e.stopPropagation();
 explode();
-alert("❤️ Я тоже тебя люблю ❤️");
+alert("❤️ Я тоже люблю тебя ❤️");
 }
 
-/* PHOTO ZOOM FIX */
-function openPhoto(src){
+/* photos */
+function openImg(src){
 document.getElementById("modal").style.display="flex";
 document.getElementById("modalImg").src=src;
 }
-
-function closePhoto(){
+function closeImg(){
 document.getElementById("modal").style.display="none";
 }
 
@@ -322,7 +328,6 @@ const h=document.createElement("div");
 h.innerHTML="❤️";
 h.className="heart";
 h.style.left=Math.random()*100+"vw";
-h.style.fontSize="18px";
 h.style.animationDuration="6s";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
@@ -334,28 +339,28 @@ const r=document.createElement("div");
 r.innerHTML="🌹";
 r.className="rose";
 r.style.left=Math.random()*100+"vw";
-r.style.fontSize="22px";
 r.style.animationDuration="7s";
 document.body.appendChild(r);
 setTimeout(()=>r.remove(),7000);
 },500);
 
 /* fireworks */
-const canvas=document.getElementById("fireworks");
-const ctx=canvas.getContext("2d");
+const c=document.getElementById("fireworks");
+const ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
 
-function resize(){
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-}
-resize();
-window.addEventListener("resize",resize);
+window.addEventListener("resize",()=>{
+c.width=innerWidth;
+c.height=innerHeight;
+});
 
-let particles=[];
+let p=[];
 
-class P{
+class Part{
 constructor(x,y){
-this.x=x;this.y=y;
+this.x=x;
+this.y=y;
 this.vx=(Math.random()-0.5)*10;
 this.vy=(Math.random()-0.5)*10;
 this.life=100;
@@ -373,16 +378,16 @@ this.draw();
 }
 
 function explode(){
-for(let i=0;i<100;i++){
-particles.push(new P(innerWidth/2,innerHeight/2));
+for(let i=0;i<120;i++){
+p.push(new Part(innerWidth/2,innerHeight/2));
 }
 }
 
 function loop(){
 ctx.clearRect(0,0,innerWidth,innerHeight);
-particles.forEach((p,i)=>{
-p.update();
-if(p.life<=0) particles.splice(i,1);
+p.forEach((x,i)=>{
+x.update();
+if(x.life<=0)p.splice(i,1);
 });
 requestAnimationFrame(loop);
 }
