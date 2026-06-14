@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Для Ксюши ❤️</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 
 <style>
 
@@ -140,9 +141,17 @@ button{
 .map{
     width:100%;
     height:320px;
-    border:none;
     border-radius:15px;
     margin-top:10px;
+}
+
+.leaflet-container{
+    border-radius:15px;
+}
+
+.heart-icon{
+    font-size:1.6rem;
+    line-height:1;
 }
 
 /* modal */
@@ -251,13 +260,31 @@ button{
 
 <br>
 
-<iframe class="map"
-src="https://www.openstreetmap.org/export/embed.html?bbox=30.433860281686%2C50.46969161452671%2C30.443860281686%2C50.47969161452671&layer=mapnik&marker=50.47469161452671%2C30.438860281686">
-</iframe>
+<div id="map" class="map"></div>
 
 </div>
 
 </div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+    let meetingMap;
+    meetingMap = L.map('map').setView([50.47469161452671, 30.438860281686], 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(meetingMap);
+
+    const heartIcon = L.divIcon({
+        className: 'heart-icon',
+        html: '❤️',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32]
+    });
+
+    L.marker([50.47469161452671, 30.438860281686], { icon: heartIcon }).addTo(meetingMap);
+</script>
 
 <!-- modal -->
 <div class="modal" id="modal" onclick="closeImg()">
@@ -284,9 +311,12 @@ on=false;
 
 /* tabs */
 function showTab(id){
-document.querySelectorAll(".tab-content")
-.forEach(t=>t.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+    document.querySelectorAll(".tab-content")
+        .forEach(t=>t.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    if(id === 't4' && meetingMap){
+        setTimeout(()=> meetingMap.invalidateSize(), 0);
+    }
 }
 
 /* timer */
