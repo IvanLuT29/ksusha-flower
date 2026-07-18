@@ -88,6 +88,29 @@ h1{
     gap:10px;
 }
 
+.gallery-caption{
+    grid-column:1 / -1;
+    font-size:0.95rem;
+    opacity:0.95;
+    text-align:center;
+    font-style:italic;
+    margin-bottom:2px;
+}
+
+.proposal-block{
+    margin-bottom:14px;
+}
+
+.proposal-block img{
+    width:100%;
+    max-width:320px;
+    height:auto;
+    display:block;
+    margin:0 auto;
+    cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,0.16);
+}
+
 .gallery img{
     width:100%;
     height:140px;
@@ -254,9 +277,14 @@ button{
 <!-- TAB 2 -->
 <div id="t2" class="tab-content">
 
-<h3>Наши фото 📸</h3><br>
+<h3>Наши фото 📸</h3>
+<div class="proposal-block">
+    <p style="margin:8px 0 8px; font-size:1rem; opacity:0.95; font-style:italic;">предложение</p>
+    <img src="photo6.jpg" onclick="openImg(this.src)">
+</div>
 
 <div class="gallery">
+<div class="gallery-caption">время с любмой</div>
 <img src="photo1.jpg" onclick="openImg(this.src)">
 <img src="photo2.jpg" onclick="openImg(this.src)">
 <img src="photo3.jpg" onclick="openImg(this.src)">
