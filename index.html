@@ -126,6 +126,35 @@ button{
     font-size:1.1rem;
 }
 
+.wedding-card{
+    background:rgba(255,255,255,0.22);
+    border:1px solid rgba(255,255,255,0.35);
+    border-radius:20px;
+    padding:18px 16px;
+    margin-top:8px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+.wedding-date{
+    font-size:1.1rem;
+    font-weight:700;
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,0.25);
+}
+
+.wedding-date:last-child{
+    border-bottom:none;
+    padding-bottom:0;
+}
+
+.wedding-date span{
+    display:block;
+    font-size:0.95rem;
+    font-weight:500;
+    margin-top:4px;
+    opacity:0.95;
+}
+
 .show{
     opacity:1;
     transform:translateY(0);
@@ -241,8 +270,11 @@ button{
 <div id="t3" class="tab-content">
 
 <h3>💍 Свадьба</h3>
-<br>
-<h2>...</h2>
+<p style="margin-top:6px; opacity:0.95;">Наши особые даты</p>
+<div class="wedding-card">
+    <div class="wedding-date">12.09.2026<span>роспись</span></div>
+    <div class="wedding-date">13.09.2026<span>венчания</span></div>
+</div>
 
 </div>
 
